@@ -18,6 +18,7 @@
 			{id:3,name:"张飞",isCompleted:true},
 			{id:4,name:"赵云",isCompleted:false}
 		];
+		// id是唯一标识
 
 		vm.todoList=todoList;
 
@@ -33,10 +34,20 @@
 			if(length===0){
 				id=1;
 			}else{
-				id=todoList[length-1]+1;
+				id=todoList[todoList.length - 1].id + 1;
 			}
 			todoList.push({id:id,name:taskName,isCompleted:false});
 			vm.taskName="";
+		}
+
+		// 3 删除任务
+		vm.del=function(id){
+			for(var i=0;i<todoList.length;i++){
+				if(todoList[i].id===id){
+					todoList.splice(i,1);
+					break;
+				}
+			}
 		}
 
 	}
