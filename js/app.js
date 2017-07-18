@@ -21,7 +21,23 @@
 
 		vm.todoList=todoList;
 
-		
+		// 2 添加任务
+		vm.add=function(){
+			var taskName=vm.taskName;
+			if(taskName.trim() === ''){
+				return;
+			}
+			var id,
+				length=todoList.length;
+			
+			if(length===0){
+				id=1;
+			}else{
+				id=todoList[length-1]+1;
+			}
+			todoList.push({id:id,name:taskName,isCompleted:false});
+			vm.taskName="";
+		}
 
 	}
 
