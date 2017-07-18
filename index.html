@@ -6,8 +6,6 @@
 		<title>Template • TodoMVC</title>
 		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
 		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
-		<!-- CSS overrides - remove if you don't need it -->
-		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body ng-app="todoApp" ng-controller="TodoController">
 		<section class="todoapp">
@@ -19,7 +17,7 @@
 			</header>
 			<!-- This section should be hidden by default and shown when there are todos -->
 			<section class="main">
-				<input id="toggle-all" class="toggle-all" type="checkbox">
+				<input id="toggle-all" class="toggle-all" type="checkbox" ng-model="isCheckedAll" ng-click="checkAll()">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
 					<!-- These are here just to show the structure of the list items -->
