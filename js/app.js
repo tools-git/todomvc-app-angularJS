@@ -4,7 +4,20 @@
 	// 创建angularjs模块
 	angular
 	.module("todoApp",[])
-	.controller("TodoController",["$scope",TodoController]);
+	.controller("TodoController",["$scope",TodoController])
+	// 自定义指令-获取焦点事件
+	.directive('todoFocus', function todoFocus($timeout) {
+	    return function (scope, elem, attrs) {
+	        // 为todoFocus属性的值添加监听
+	        scope.$watch(attrs.todoFocus, function (newVal) {
+	            if (newVal) {
+	                $timeout(function () {
+	                    elem[0].focus();
+	                }, 0, false);
+	            }
+	        });
+	    };
+	});
 
 	function TodoController($scope){
 		// vm ---> viewmodel 视图模型
@@ -55,6 +68,9 @@
 		vm.editingId=-1
 		vm.edit=function(id){
 			vm.editingId=id;
+			// var Oedit=document.getElementById("sui_"+id);
+			// console.log(Oedit);
+			// Oedit.focus();
 		}
 		vm.editSave=function(){
 			vm.editingId=-1
@@ -67,6 +83,25 @@
 			for(var i=0;i<todoList.length;i++){
 				todoList[i].isCompleted = vm.isCheckedAll;
 			}
+		}
+		// 判断是不是全选
+		vm.isAll=function(){
+			var flag=0;
+			for(var i=0;i<todoList.length;i++){
+				if(todoList[i].isCompleted===true){
+					flag++;
+				}
+			}
+			if(flag===todoList.length){
+				vm.isCheckedAll=true;
+				vm.checkAll();
+			}else{
+				vm.isCheckedAll=false;
+			}
+		}
+
+		vm.f=function(){
+			console.log(1);
 		}
 	}
 
