@@ -50,6 +50,17 @@
 			}
 		}
 
+		// 4 修改任务
+		// 思路：双击任务元素，给当前项添加 editing 类
+		vm.editingId=-1
+		vm.edit=function(id){
+			vm.editingId=id;
+		}
+		vm.editSave=function(){
+			vm.editingId=-1
+		}
+
+		
 	}
 
 })(window);
