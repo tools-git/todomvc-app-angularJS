@@ -100,9 +100,21 @@
 			}
 		}
 
-		vm.f=function(){
-			console.log(1);
+		// 6 清除已完成的任务
+		vm.delCompleted=function(){
+			var todoArr=[];
+			for(var i=0;i<todoList.length;i++){
+				// 删除已完成的，保存未完成的
+				if(!todoList[i].isCompleted)
+					todoArr.push(todoList[i]);
+			}
+
+			// 清空数据数组
+			todoList.length=0;
+			[].push.apply(todoList,todoArr);
 		}
+
+
 	}
 
 })(window);
