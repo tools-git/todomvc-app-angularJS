@@ -88,16 +88,18 @@
 		vm.isAll=function(){
 			var flag=0;
 			for(var i=0;i<todoList.length;i++){
-				if(todoList[i].isCompleted===true){
+				if(!todoList[i].isCompleted){
 					flag++;
 				}
 			}
-			if(flag===todoList.length){
+			if(flag===0){
 				vm.isCheckedAll=true;
 				vm.checkAll();
 			}else{
 				vm.isCheckedAll=false;
 			}
+
+			return flag;
 		}
 
 		// 6 清除已完成的任务
@@ -109,11 +111,40 @@
 					todoArr.push(todoList[i]);
 			}
 
-			// 清空数据数组
+			// 清空数据数组(没有改变指向)
 			todoList.length=0;
 			[].push.apply(todoList,todoArr);
+
+			// 改变指向
+			// vm.todoList=todoList=todoArr;
+
+			/*for(var i=0;i<todoList.length;i++){
+				if(todoList[i].isCompleted){
+					todoList.splice(i,1);
+					i++;
+				}
+			}*/
 		}
 
+		// 6.1 控制清除任务按钮的展示和隐藏
+		// 当任务全都未完成时按钮隐藏
+		vm.isShow=function(){
+			var ret = false;
+			for (var i = 0; i < todoList.length; i++) {
+				if (todoList[i].isCompleted) {
+					ret = true;
+					break;
+				}
+			}
+			return ret;
+		}
+
+		// 7 显示未完成任务数
+		// 遍历数据未完成的个数
+
+		// 8 显示不同状态的任务 以及当前任务高亮处理
+		// 9 根据URL变化显示相应任务
+		
 
 	}
 
