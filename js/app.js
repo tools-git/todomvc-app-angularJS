@@ -4,7 +4,7 @@
 	// 创建angularjs模块
 	angular
 	.module("todoApp",[])
-	.controller("TodoController",["$scope",TodoController])
+	.controller("TodoController",["$scope",'$location',TodoController])
 	// 自定义指令-获取焦点事件
 	.directive('todoFocus', function todoFocus($timeout) {
 	    return function (scope, elem, attrs) {
@@ -19,7 +19,7 @@
 	    };
 	});
 
-	function TodoController($scope){
+	function TodoController($scope, $location){
 		// vm ---> viewmodel 视图模型
 		var vm = $scope;
 
@@ -144,8 +144,22 @@
 
 		// 8 显示不同状态的任务 以及当前任务高亮处理
 		// 9 根据URL变化显示相应任务
-		
 
+		vm.location=$location;
+		// 监听url的变化
+		vm.$watch('location.url()',function(newVal,oldVal){
+			switch(newVal){
+				case '/active':
+					vm.status = false;
+					break;
+				case '/completed':
+					vm.status = true;
+					break;
+				default:
+					vm.status = undefined;
+					break;
+			}
+		})
 	}
 
 })(window);
