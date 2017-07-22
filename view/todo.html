@@ -1,0 +1,46 @@
+<header class="header">
+				<h1>todos</h1>
+				<form ng-submit="add()">
+					<input class="new-todo" placeholder="What needs to be done?" autofocus ng-model="taskName">
+				</form>
+			</header>
+			<!-- This section should be hidden by default and shown when there are todos -->
+			<section class="main">
+				<input id="toggle-all" class="toggle-all" type="checkbox" ng-model="isCheckedAll" ng-click="checkAll()">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list">
+					<!-- These are here just to show the structure of the list items -->
+					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+					<!-- 添加过滤器，根据状态展示数据 -->
+					<li ng-class="{completed:todo.isCompleted,editing:editingId===todo.id}" ng-repeat="todo in todoList | filter: {isCompleted: status} track by $index">
+						<div class="view">
+							<input class="toggle" type="checkbox" ng-model="todo.isCompleted" ng-click="isAll()">
+							<label ng-bind="todo.name" ng-dblclick="edit(todo.id)"></label>
+							<!-- 将当前项的id作为 del方法的参数 -->
+							<button class="destroy" ng-click="del(todo.id)"></button>
+						</div>
+						<form ng-submit="editSave()">
+							<input class="edit" id="sui_{{todo.id}}" ng-model="todo.name"  ng-blur="editSave()" todo-focus="editingId == todo.id">
+						</form>
+					</li>
+				</ul>
+			</section>
+			<!-- This footer should hidden by default and shown when there are todos -->
+			<footer class="footer">
+				<!-- This should be `0 items left` by default -->
+				<span class="todo-count"><strong ng-bind="isAll()"></strong> item left</span>
+				<!-- Remove this if you don't implement routing -->
+				<ul class="filters">
+					<li>
+						<a ng-class="{selected: status === undefined}" href="#/">All</a>
+					</li>
+					<li>
+						<a ng-class="{selected: status === false}" href="#/active">Active</a>
+					</li>
+					<li>
+						<a ng-class="{selected: status === true}" href="#/completed">Completed</a>
+					</li>
+				</ul>
+				<!-- Hidden if no completed items are left ↓ -->
+				<button class="clear-completed" ng-click="delCompleted()" ng-show="isShow()">Clear completed</button>
+			</footer>

@@ -4,14 +4,15 @@
   	// 控制器模块
   	angular
 	.module('todoApp.ctrl',[])
-	.controller("TodoController",["$scope",'$location','TodoSrv',TodoController]);
+	.controller("TodoController",["$scope",'$location','$routeParams','TodoSrv',TodoController]);
 	// 控制器中应该值保留简单的业务逻辑处理
 
 	// 因为现在这个控制器中，即包含了业务处理，也包含了数据操作
 	// 为了代码结构更加合理，现在需要将 数据操作封装到一个 数据服务 中
 	// 控制器将来只需要调用 数据服务 中操作数据的方法，具体的数据操作交给 数据服务 来完成
 
-	function TodoController($scope, $location,TodoSrv){
+	function TodoController($scope, $location,
+		$routeParams,TodoSrv){
 		// vm ---> viewmodel 视图模型
 		var vm = $scope;
 
@@ -77,20 +78,41 @@
 		// 8 显示不同状态的任务 以及当前任务高亮处理
 		// 9 根据URL变化显示相应任务
 
-		vm.location=$location;
-		// 监听url的变化
-		vm.$watch('location.url()',function(newVal,oldVal){
-			switch(newVal){
-				case '/active':
-					vm.status = false;
-					break;
-				case '/completed':
-					vm.status = true;
-					break;
-				default:
-					vm.status = undefined;
-					break;
-			}
-		})
+		// vm.location=$location;
+		// // 监听url的变化
+		// vm.$watch('location.url()',function(newVal,oldVal){
+		// 	switch(newVal){
+		// 		case '/active':
+		// 			vm.status = false;
+		// 			break;
+		// 		case '/completed':
+		// 			vm.status = true;
+		// 			break;
+		// 		default:
+		// 			vm.status = undefined;
+		// 			break;
+		// 	}
+		// })
+
+		// 路由执行过程：
+		// 1 用户单击active这个a链接，改变URL中的锚点值
+		// 2 锚点值发生改变以后，angular能够感知到这个变化（angular会监视锚点值的变化）
+		// 3 此时，路由机制就会根据当前的锚点值，重新匹配路由规则
+		// 4 当某个路由规则匹配以后，angular会把这个规则对应的视图内容通过templateUrl的ajax请求获取到并且展示到页面中（ng-view）
+		// 5 这个规则对应的控制器中的代码也会被执行
+
+		vm.status=undefined;
+		var status=$routeParams.status;
+		switch(status){
+			case 'active':
+				vm.status=false;
+				break;
+			case 'completed':
+				vm.status=true;
+				break;
+			default:
+				vm.status=undefined;
+				break;
+		}
 	}
 })(angular)
